@@ -1,5 +1,5 @@
 import expressWinston from 'express-winston';
-import winston from 'winston/lib/winston/config';
+import winston from 'winston';
 
 const requestLogger = expressWinston.logger({
   transports: [
