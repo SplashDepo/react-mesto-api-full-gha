@@ -9,6 +9,7 @@ import routerSignin from './routes/signin.js';
 import routerSignup from './routes/signup.js';
 import NotFoundError from './errors/NotFoundError.js';
 import auth from './middlewares/auth.js';
+import { requestLogger, errorLogger } from './middlewares/logger.js';
 
 const { PORT = 3000, URL = 'mongodb://127.0.0.1:27017/mestodb' } = process.env;
 
@@ -21,6 +22,7 @@ app.use(helmet());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(requestLogger);
 
 app.use('/signup', routerSignup);
 app.use('/signin', routerSignin);
@@ -30,6 +32,7 @@ app.use(auth);
 app.use('/users', routerUser);
 app.use('/cards', routerCard);
 
+app.use(errorLogger);
 app.use(errors());
 
 app.use((req, res, next) => next(new NotFoundError('Страницы по запрошенному URL не существует')));
