@@ -47,7 +47,7 @@ class AuthApi {
 }
 
 
-const apiAuth = new AuthApi("https://auth.nomoreparties.co/")
+const apiAuth = new AuthApi("http://api.mesto.splash.nomoreparties.sbs/")
 
 export { apiAuth }
 
