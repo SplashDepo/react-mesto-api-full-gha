@@ -9,7 +9,7 @@ import ConflictError from '../errors/ConflictError.js';
 
 const getAllUsers = (req, res, next) => {
   User.find({})
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     .catch(next);
 };
 
@@ -39,7 +39,7 @@ const getCurrentUserInfo = (req, res, next) => {
       throw new NotFoundError('Пользователь с таким id не найден');
     })
     .then((user) => {
-      res.status(200).send({ data: user });
+      res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -103,7 +103,7 @@ const updateUserInfo = (req, res, next) => {
       throw new NotFoundError('Пользователь с таким id не найден');
     })
     .then((user) => {
-      res.status(200).send({ data: user });
+      res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
@@ -127,7 +127,7 @@ const updateUserAvatar = (req, res, next) => {
       throw new NotFoundError('Пользователь с таким id не найден');
     })
     .then((user) => {
-      res.status(200).send({ data: user });
+      res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {

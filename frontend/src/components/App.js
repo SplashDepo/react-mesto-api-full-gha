@@ -44,6 +44,7 @@ function App() {
     if (logedIn) {
       Promise.all([apiConnect.getInitialCards(), apiConnect.getUserData()])
         .then(([initialCards, userData]) => {
+          console.log(initialCards)
           setUserInfo(userData)
           setCards(initialCards)
         })
@@ -52,12 +53,13 @@ function App() {
   }, [logedIn])
 
   function checkToken() {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('jwt')
     if (token) {
       apiAuth.tokenVerefication(token)
         .then(res => {
+          console.log(res)
           setLogedIn(true)
-          setEmail(res.data.email)
+          setEmail(res.email)
           navigate('/main', { replace: true })
         }).catch((err) => {
           console.log(`Ошибка верификации ${err}`)
@@ -66,16 +68,17 @@ function App() {
   }
 
   function handelLogout() {
-    localStorage.removeItem('token')
+    localStorage.removeItem('jwt')
     setLogedIn(false)
   }
 
   function handelLogin(authorizeData) {
     apiAuth.authorize(authorizeData)
       .then(data => {
-        if (data.token) {
+        console.log(data._id)
+        if (data._id) {
           setEmail(authorizeData.email)
-          localStorage.setItem('token', data.token)
+          localStorage.setItem('jwt', data._id)
           setLogedIn(true)
           navigate('/main')
         }

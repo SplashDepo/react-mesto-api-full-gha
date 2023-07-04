@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
+import cors from 'cors';
 import { errors } from 'celebrate';
 import routerUser from './routes/users.js';
 import routerCard from './routes/cards.js';
@@ -18,6 +19,7 @@ mongoose.connect(URL)
   .catch((err) => console.log(err));
 
 const app = express();
+app.use(cors());
 app.use(helmet());
 
 app.use(bodyParser.urlencoded({ extended: false }));

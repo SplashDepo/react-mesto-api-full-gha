@@ -7,8 +7,9 @@ import ForbiddenError from '../errors/ForbiddenError.js';
 const getAllCards = (req, res, next) => {
   Card
     .find({})
+    .populate(['owner', 'likes'])
     .then((cards) => {
-      res.status(200).send({ data: cards });
+      res.status(200).send(cards);
     })
     .catch(next);
 };
@@ -18,7 +19,12 @@ const createCard = (req, res, next) => {
   const { userId: ownerId } = req.user;
   Card
     .create({ name, link, owner: ownerId })
-    .then((cards) => res.status(201).send({ data: cards }))
+    .then((card) => {
+      card
+        .populate('owner')
+        .then(() => res.status(201).send(card))
+        .catch(next);
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new InaccurateDataError('Переданы некорректные данные при создании карточки'));
@@ -43,7 +49,7 @@ const deleteCard = (req, res, next) => {
       if (cardOwnerId.valueOf() !== userId) throw new ForbiddenError('Нет прав доступа');
 
       card.deleteOne(card)
-        .then(() => res.send({ data: card }))
+        .then(() => res.send(card))
         .catch(next);
     })
     .catch(next);
@@ -57,11 +63,13 @@ const likeCard = (req, res, next) => {
       cardId,
       { $addToSet: { likes: userId } },
       { new: true },
-    ).orFail(() => {
+    )
+    .populate(['owner', 'likes'])
+    .orFail(() => {
       throw new NotFoundError('Карточка с указанным id не найдена');
     })
     .then((user) => {
-      res.status(200).send({ data: user });
+      res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
@@ -81,11 +89,12 @@ const dislikeCard = (req, res, next) => {
       { $pull: { likes: userId } },
       { new: true },
     )
+    .populate(['owner', 'likes'])
     .orFail(() => {
       throw new NotFoundError('Карточка с указанным id не найдена');
     })
     .then((user) => {
-      res.status(200).send({ data: user });
+      res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
