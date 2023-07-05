@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
 
-// import UnauthorizedError from '../errors/UnauthorizedError.js';
+import { NODE_ENV, SECRET_SIGNING_KEY } from '../utils/constant.js';
 import NotFoundError from '../errors/NotFoundError.js';
 import InaccurateDataError from '../errors/InaccurateDataError.js';
 import ConflictError from '../errors/ConflictError.js';
@@ -82,7 +82,7 @@ const loginUser = (req, res, next) => {
   User
     .findUserByCredentials(email, password)
     .then(({ _id: userId }) => {
-      const token = jwt.sign({ userId }, 'some-secret-key', { expiresIn: '7d' });
+      const token = jwt.sign({ userId }, NODE_ENV === 'production' ? SECRET_SIGNING_KEY : 'some-secret-key', { expiresIn: '7d' });
 
       return res.status(200).send({ _id: token });
     })

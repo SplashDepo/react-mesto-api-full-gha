@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import UnauthorizedError from '../errors/UnauthorizedError.js';
+import { NODE_ENV, SECRET_SIGNING_KEY } from '../utils/constant.js';
 
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
@@ -11,7 +12,7 @@ const auth = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, 'some-secret-key');
+    payload = jwt.verify(token, NODE_ENV === 'production' ? SECRET_SIGNING_KEY : 'some-secret-key');
   } catch (err) {
     return next(new UnauthorizedError('Неправильные почта или пароль'));
   }

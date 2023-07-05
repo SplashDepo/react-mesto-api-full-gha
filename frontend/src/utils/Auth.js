@@ -47,7 +47,7 @@ class AuthApi {
 }
 
 
-const apiAuth = new AuthApi('https://api.mesto.splash.nomoreparties.sbs/')
+const apiAuth = new AuthApi('http://localhost:3001/')
 
 export { apiAuth }
 
