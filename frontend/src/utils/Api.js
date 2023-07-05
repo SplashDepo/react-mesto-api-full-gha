@@ -16,6 +16,7 @@ class Api {
 
   getUserData() {
     return fetch(`${this._link}users/me`, {
+      credentials: 'include',
       headers: this._headers
     })
       .then((res) => { return this._serverResponse(res) })
@@ -23,6 +24,7 @@ class Api {
 
   sendUserData(userName, userDescription) {
     return fetch(`${this._link}users/me`, {
+      credentials: 'include',
       headers: this._headers,
       method: 'PATCH',
       body: JSON.stringify({ name: userName, about: userDescription })
@@ -32,6 +34,7 @@ class Api {
 
   getInitialCards() {
     return fetch(`${this._link}cards`, {
+      credentials: 'include',
       headers: this._headers
     })
       .then((res) => { return this._serverResponse(res) })
@@ -39,6 +42,7 @@ class Api {
 
   addCard(name, link) {
     return fetch(`${this._link}cards`, {
+      credentials: 'include',
       headers: this._headers,
       method: 'POST',
       body: JSON.stringify({ name, link })
@@ -47,6 +51,7 @@ class Api {
   }
   deleteCard(cardId) {
     return fetch(`${this._link}cards/${cardId}`, {
+      credentials: 'include',
       headers: this._headers,
       method: 'DELETE'
     })
@@ -56,12 +61,14 @@ class Api {
   changeLikeCardStatus(cardId, isLiked) {
     if (isLiked) {
       return fetch(`${this._link}cards/${cardId}/likes`, {
+        credentials: 'include',
         headers: this._headers,
         method: 'PUT'
       })
         .then((res) => { return this._serverResponse(res) })
     } else {
       return fetch(`${this._link}cards/${cardId}/likes`, {
+        credentials: 'include',
         headers: this._headers,
         method: 'DELETE'
       })
