@@ -13,6 +13,7 @@ class AuthApi {
 
   tokenVerefication(token) {
     return fetch(`${this._baseUrl}users/me`, {
+      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
@@ -23,6 +24,7 @@ class AuthApi {
 
   register({ password, email }) {
     return fetch(`${this._baseUrl}signup`, {
+      credentials: 'include',
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -34,6 +36,7 @@ class AuthApi {
 
   authorize({ password, email }) {
     return fetch(`${this._baseUrl}signin`, {
+      credentials: 'include',
       method: 'POST',
       headers: {
         'Accept': 'application/json',
