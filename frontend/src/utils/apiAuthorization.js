@@ -1,5 +1,5 @@
 const apiAuthorization = {
-  link: 'http://localhost:3001/',
+  link: 'https://api.mesto.splash.nomoreparties.sbs/',
   headers: {
     'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
     'Content-Type': 'application/json'
