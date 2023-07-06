@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 84.252.129.162
+IP 84.252.129.162
 
 Frontend https://mesto.splash.nomoreparties.sbs
 

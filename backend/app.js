@@ -4,8 +4,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import { errors } from 'celebrate';
-// import cors from './middlewares/cors.js';
-import cors from 'cors';
+import cors from './middlewares/cors.js';
 import routerUser from './routes/users.js';
 import routerCard from './routes/cards.js';
 import routerSignin from './routes/signin.js';
@@ -23,7 +22,7 @@ mongoose.connect(URL)
 const app = express();
 
 app.use(helmet());
-app.use(cors());
+app.use(cors);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
