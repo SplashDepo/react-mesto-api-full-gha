@@ -41,12 +41,7 @@ const getCurrentUserInfo = (req, res, next) => {
     .then((user) => {
       res.status(200).send(user);
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return next(new InaccurateDataError('Передан некорректный id'));
-      }
-      return next(err);
-    });
+    .catch(next);
 };
 
 const createUser = (req, res, next) => {
@@ -92,7 +87,6 @@ const loginUser = (req, res, next) => {
 const updateUserInfo = (req, res, next) => {
   const { name, about } = req.body;
   const { userId } = req.user;
-  console.log(req.user);
   User
     .findByIdAndUpdate(
       userId,
@@ -106,7 +100,7 @@ const updateUserInfo = (req, res, next) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
+      if (err.name === 'ValidationError') {
         next(new InaccurateDataError('Переданы некорректные данные при обновлении профиля пользователя'));
       } else {
         next(err);

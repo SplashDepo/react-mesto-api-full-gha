@@ -42,10 +42,9 @@ app.use(auth);
 app.use('/users', routerUser);
 app.use('/cards', routerCard);
 
+app.use((req, res, next) => next(new NotFoundError('Страницы по запрошенному URL не существует')));
 app.use(errorLogger);
 app.use(errors());
-
-app.use((req, res, next) => next(new NotFoundError('Страницы по запрошенному URL не существует')));
 
 app.use((err, req, res, next) => {
   console.log(err);

@@ -48,7 +48,7 @@ const deleteCard = (req, res, next) => {
       const { owner: cardOwnerId } = card;
       if (cardOwnerId.valueOf() !== userId) throw new ForbiddenError('Нет прав доступа');
 
-      card.deleteOne(card)
+      card.deleteOne()
         .then(() => res.send(card))
         .catch(next);
     })
@@ -72,7 +72,7 @@ const likeCard = (req, res, next) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
+      if (err.name === 'CastError') {
         next(new InaccurateDataError('Переданы некорректные данные при добавлениилайка карточке'));
       } else {
         next(err);
@@ -97,7 +97,7 @@ const dislikeCard = (req, res, next) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
+      if (err.name === 'CastError') {
         return next(new InaccurateDataError('Переданы некорректные данные при снятии лайка карточки'));
       }
       return next(err);
